@@ -1,0 +1,17 @@
+.loader {
+  display: block;
+  margin: 0 auto;
+  z-index: 100;
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 5;
+  background-color: black;
+  opacity: .5;
+}
