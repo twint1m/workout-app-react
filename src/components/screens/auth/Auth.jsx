@@ -1,15 +1,20 @@
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useMutation } from 'react-query'
+import { useNavigate } from 'react-router-dom'
 
 import { Button } from '../../ui/button/Button'
-import Field from '../../ui/field/Field'
 import inputStyles from '../../ui/field/Field.module.scss'
 import Loader from '../../ui/loader/Loader'
 
+import AuthService from '../../../services/auth.service'
 import Layout from '../../layout/Layout'
 
 import styles from './Auth.module.scss'
 
 const Auth = () => {
+	const navigate = useNavigate()
+	const [type, setType] = useState('')
 	const {
 		register,
 		handleSubmit,
@@ -18,10 +23,19 @@ const Auth = () => {
 	} = useForm({
 		mode: 'onBlur'
 	})
+	const { mutate, isLoading } = useMutation(
+		['auth'],
+		({ email, password }) => AuthService.main(email, password, type),
+		{
+			onSuccess: data => {
+				reset()
+				navigate('/')
+			}
+		}
+	)
+
 	const saveData = data => {
-		alert(JSON.stringify(data))
-		console.log(data)
-		reset()
+		mutate(data)
 	}
 	return (
 		<>
@@ -30,7 +44,7 @@ const Auth = () => {
 				className={styles.authBg}
 				bgImage={'/images/auth-bg.png'}
 			></Layout>
-			<Loader />
+			{isLoading && <Loader />}
 			<div className='wrapper-inner-page'>
 				<form onSubmit={handleSubmit(saveData)}>
 					<div>
@@ -69,8 +83,22 @@ const Auth = () => {
 						)}
 					</div>
 					<div className={styles.wrapperButtons}>
-						<Button disabledHandler={!isValid}>Sign Up</Button>
-						<Button disabledHandler={!isValid}>Sign In</Button>
+						<Button
+							clickHandler={() => {
+								setType('login')
+							}}
+							disabledHandler={!isValid}
+						>
+							Login
+						</Button>
+						<Button
+							clickHandler={() => {
+								setType('register')
+							}}
+							disabledHandler={!isValid}
+						>
+							Register
+						</Button>
 					</div>
 				</form>
 			</div>

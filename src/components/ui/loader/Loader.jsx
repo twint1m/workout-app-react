@@ -10,7 +10,7 @@ const Loader = () => {
 				draggable={false}
 				width={90}
 			/>
-			<div className={styles.overlay}></div>
+			<div draggable={false} className={styles.overlay}></div>
 		</>
 	)
 }

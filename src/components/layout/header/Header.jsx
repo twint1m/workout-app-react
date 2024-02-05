@@ -1,6 +1,6 @@
 import { FaUserCircle } from 'react-icons/fa'
 import { IoMdArrowBack } from 'react-icons/io'
-import { redirect, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../../../hooks/useAuth'
@@ -11,8 +11,8 @@ import styles from './Header.module.scss'
 
 const Header = ({ backLink = '' }) => {
 	const { isAuth } = useAuth()
-	const { pathname } = useLocation()
 	const navigate = useNavigate()
+	const { pathname } = useLocation()
 	return (
 		<header className={styles.header}>
 			{pathname !== '/' ? (
